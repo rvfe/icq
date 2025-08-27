@@ -70,3 +70,7 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "iqc_app.core" / "static"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+LOGIN_REDIRECT_URL = "submissions_list"  # or "home"
+LOGIN_URL = "login"
+LOGOUT_REDIRECT_URL = "home"

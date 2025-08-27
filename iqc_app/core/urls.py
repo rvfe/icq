@@ -1,9 +1,7 @@
-# iqc_app/core/urls.py
 from django.urls import path
 from . import views
 
-app_name = "core"
-
 urlpatterns = [
     path("", views.home, name="home"),
+    path("submissions/", views.submissions_list, name="submissions_list"),
 ]

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Submissions{% endblock %}
+
+{% block content %}
+<h2 class="text-2xl font-semibold text-brand-800 mb-6">Submissões</h2>
+
+<table class="table w-full bg-white shadow-soft rounded-xl2">
+  <thead>
+    <tr>
+      <th>Empresa</th>
+      <th>CNPJ</th>
+      <th>Representante</th>
+      <th>Email</th>
+      <th>Telefone</th>
+      <th>Tipo</th>
+      <th>Mensagem</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for app in apps %}
+      <tr>
+        <td>{{ app.company_name }}</td>
+        <td>{{ app.cnpj }}</td>
+        <td>{{ app.legal_representative }}</td>
+        <td>{{ app.email }}</td>
+        <td>{{ app.phone }}</td>
+        <td>{{ app.participation_type }}</td>
+        <td>{{ app.message }}</td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="7" class="text-center">Nenhuma submissão encontrada</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<form action="{% url 'logout' %}" method="post" class="mt-4">
+  {% csrf_token %}
+  <button type="submit" class="btn border-0 bg-brand-500 hover:bg-brand-600 text-white">
+    Logout
+  </button>
+</form>
+{% endblock %}

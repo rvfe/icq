@@ -2,6 +2,9 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import PartnerApplicationForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import PartnerApplication
 
 
 def home(request):
@@ -18,3 +21,9 @@ def home(request):
     whatsapp_link = "https://wa.me/5551995852380"
 
     return render(request, "home.html", {"form": form, "whatsapp_link": whatsapp_link})
+
+
+@login_required
+def submissions_list(request):
+    apps = PartnerApplication.objects.all().order_by("-id")
+    return render(request, "submissions_list.html", {"apps": apps})
