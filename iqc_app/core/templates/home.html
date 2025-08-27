@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Inclusão que Transforma{% endblock %}
+
+{% block content %}
+<div class="grid xl:grid-cols-3 gap-8">
+  <!-- Abas + conteúdo -->
+  <section class="xl:col-span-2">
+    <div x-data="{ tab: 'projeto' }" class="card bg-white shadow-soft rounded-xl2">
+      <div class="card-body">
+        <!-- Tabs (wrap on small screens) -->
+        <div class="flex flex-wrap gap-2 bg-brand-100 p-2 rounded-xl">
+          <button class="px-4 py-2 rounded-lg font-medium shrink-0"
+                  :class="tab==='projeto' ? 'bg-brand-500 text-white' : 'text-brand-700 hover:bg-brand-50'"
+                  @click="tab='projeto'">Projeto</button>
+
+          <button class="px-4 py-2 rounded-lg font-medium shrink-0"
+                  :class="tab==='equipes' ? 'bg-brand-500 text-white' : 'text-brand-700 hover:bg-brand-50'"
+                  @click="tab='equipes'">Equipe & Benefícios</button>
+
+          <button class="px-4 py-2 rounded-lg font-medium shrink-0"
+                  :class="tab==='leis' ? 'bg-brand-500 text-white' : 'text-brand-700 hover:bg-brand-50'"
+                  @click="tab='leis'">Leis & Informações</button>
+        </div>
+
+        <!-- Conteúdo -->
+        <div class="mt-6">
+          <div x-show="tab==='projeto'">
+            {% include "content/_aba1_projeto.html" %}
+          </div>
+          <div x-show="tab==='equipes'">
+            {% include "content/_aba2_equipes.html" %}
+          </div>
+          <div x-show="tab==='leis'">
+            {% include "content/_aba3_leis.html" %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Form + QR -->
+  <aside class="space-y-6">
+    <div class="card bg-white shadow-soft rounded-xl2">
+      <div class="card-body">
+        <h2 class="card-title text-brand-800">Seja parceiro(a)</h2>
+        <p class="text-sm text-gray-600 mb-2">Preencha o formulário para participar.</p>
+
+        <form method="post" class="space-y-4">
+          {% csrf_token %}
+          <label class="form-control w-full">
+            <span class="label-text">Razão social:</span>
+            {{ form.company_name }}
+          </label>
+
+          <label class="form-control w-full">
+            <span class="label-text">CNPJ:</span>
+            {{ form.cnpj }}
+          </label>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="form-control">
+              <span class="label-text">Representante legal:</span>
+              {{ form.legal_representative }}
+            </label>
+            <label class="form-control">
+              <span class="label-text">Cargo:</span>
+              {{ form.role }}
+            </label>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <label class="form-control">
+              <span class="label-text">Telefone:</span>
+              {{ form.phone }}
+            </label>
+            <label class="form-control">
+              <span class="label-text">E-mail:</span>
+              {{ form.email }}
+            </label>
+          </div>
+
+          <label class="form-control w-full">
+            <span class="label-text">Deseja participar como:</span>
+            {{ form.participation_type }}
+          </label>
+
+          <label class="form-control w-full">
+            <span class="label-text">Mensagem (opcional):</span>
+            {{ form.message }}
+          </label>
+
+          <button class="btn w-full border-0 bg-brand-600 hover:bg-brand-700 text-white">
+            Enviar
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card bg-white shadow-soft rounded-xl2">
+      <div class="card-body items-center text-center">
+        <div class="avatar placeholder mb-3">
+          <div class="bg-brand-600 text-white rounded-full w-12"><span>E</span></div>
+        </div>
+        <h3 class="font-semibold text-brand-800">Eleni</h3>
+        <p class="text-sm text-gray-600 mb-3">Contato no WhatsApp</p>
+        <a href="{{ whatsapp_link }}" target="_blank" class="btn btn-outline w-full mb-3 border-brand-300 text-brand-700 hover:bg-brand-50">
+          Abrir conversa
+        </a>
+        <img src="{% static 'img/qr_eleni.png' %}" alt="QR WhatsApp Eleni" class="w-44 h-44 object-contain mx-auto">
+        <p class="text-xs text-gray-500 mt-2">Escaneie o QR para falar com Eleni</p>
+      </div>
+    </div>
+  </aside>
+</div>
+{% endblock %}

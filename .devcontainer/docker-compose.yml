@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspace:cached
+    command: sleep infinity
+    depends_on:
+      - db
+    networks:
+      - devnet
+    ports:
+      - "8000:8000"
+
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: projeto_iqc
+      POSTGRES_PASSWORD: projeto_iqc
+      POSTGRES_DB: projeto_iqc_db
+    ports:
+      - "55432:5432"
+    networks:
+      - devnet
+
+networks:
+  devnet:
+
