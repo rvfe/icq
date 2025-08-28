@@ -6,6 +6,7 @@ class PartnerApplication(models.Model):
         ("contratante_pcd", "Empresa contratante de jovem aprendiz PcD"),
         ("apoio_divulgacao", "Empresa apoiadora com recursos ou divulgação"),
         ("capacitacao_inclusao", "Empresa interessada em capacitação sobre inclusão"),
+        ("como_contratar", "Empresa interessada em saber como contratar um jovem aprendiz")
     ]
 
     company_name = models.CharField("Razão social", max_length=200)

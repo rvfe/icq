@@ -13,10 +13,11 @@
       theme: {
         extend: {
           colors: {
+            /* brand agora em AZUL (antes era verde) */
             brand: {
-              50:'#ecf6ef',100:'#d8eee0',200:'#b7dfc4',300:'#8fcca4',
-              400:'#66b983',500:'#3fa969',600:'#2f8b56',700:'#246c45',
-              800:'#1d5538',900:'#173f2a'
+              50:'#eef4fb',100:'#dbe7f7',200:'#b7cbee',300:'#8aa9dd',
+              400:'#5d86cb',500:'#2f64b9',600:'#254f94',700:'#1c3b6f',
+              800:'#152e57',900:'#0f2343'
             }
           },
           boxShadow:{ soft:'0 6px 20px rgba(0,0,0,.06)' },
@@ -29,7 +30,6 @@
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   <style>
-    /* Keep media from causing horizontal overflow anywhere */
     img, video { max-width:100%; height:auto; }
   </style>
 
@@ -43,25 +43,21 @@
     <div class="max-w-7xl mx-auto px-4 py-4
                 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-center sm:text-left">
 
-      <!-- Logo + Title wrapper -->
       <div class="flex flex-col sm:flex-row sm:items-center gap-2 justify-center">
         <img src="{% static 'img/logo.png' %}" alt="Logo"
-            class="h-10 md:h-12 w-auto mx-auto sm:mx-0"
-            style="image-rendering:-webkit-optimize-contrast;">
-        <h1 class="text-xl sm:text-2xl md:text-3xl font-semibold text-brand-800 break-words leading-tight">
-          Inclusão que Transforma
-        </h1>
+             class="h-10 md:h-12 w-auto mx-auto sm:mx-0"
+             style="image-rendering:-webkit-optimize-contrast;">
       </div>
 
-      <!-- Buttons -->
+      <!-- Botões agora LARANJA -->
       <div class="flex flex-col sm:flex-row gap-2 justify-center sm:justify-end mt-2 sm:mt-0">
         <a href="{{ whatsapp_link }}" target="_blank"
-          class="btn btn-sm border-0 bg-brand-500 hover:bg-brand-600 text-white w-full sm:w-auto">
-          Fale com Eleni
+           class="btn btn-sm border-0 bg-orange-500 hover:bg-orange-600 text-white w-full sm:w-auto">
+          Fale com a Equipe
         </a>
         {% if user.is_authenticated %}
           <a href="{% url 'submissions_list' %}"
-            class="btn btn-sm bg-brand-200 text-brand-800 w-full sm:w-auto">
+             class="btn btn-sm border-0 bg-orange-100 text-orange-800 hover:bg-orange-200 w-full sm:w-auto">
             Submissões
           </a>
           <form action="{% url 'logout' %}" method="post" class="inline">
@@ -69,15 +65,16 @@
             <button type="submit" class="btn btn-sm w-full sm:w-auto">Logout</button>
           </form>
         {% else %}
-          <a href="{% url 'login' %}" class="btn btn-sm w-full sm:w-auto">Login</a>
+          <!-- Login agora também LARANJA -->
+          <a href="{% url 'login' %}"
+             class="btn btn-sm border-0 bg-orange-500 hover:bg-orange-600 text-white w-full sm:w-auto">
+            Login
+          </a>
         {% endif %}
       </div>
     </div>
   </header>
 
-
-
-  <!-- CENTERED CONTENT -->
   <main class="max-w-7xl mx-auto px-4 py-8">
     {% if messages %}
       <div class="space-y-2 mb-6">
@@ -95,7 +92,6 @@
     {% block content %}{% endblock %}
   </main>
 
-  <!-- FULL-WIDTH FOOTER -->
   <footer class="bg-brand-50">
     <div class="max-w-7xl mx-auto px-4 py-10 text-center text-sm text-gray-600">
       © {{ now|date:"Y" }} Inclusão que Transforma

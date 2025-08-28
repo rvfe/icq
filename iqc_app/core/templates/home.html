@@ -4,26 +4,22 @@
 
 {% block content %}
 <div class="grid xl:grid-cols-3 gap-8">
-  <!-- Abas + conteúdo -->
   <section class="xl:col-span-2">
     <div x-data="{ tab: 'projeto' }" class="card bg-white shadow-soft rounded-xl2">
       <div class="card-body">
-        <!-- Tabs (wrap on small screens) -->
+        <!-- Tabs permanecem em brand (azul) -->
         <div class="flex flex-wrap gap-2 bg-brand-100 p-2 rounded-xl">
           <button class="px-4 py-2 rounded-lg font-medium shrink-0"
                   :class="tab==='projeto' ? 'bg-brand-500 text-white' : 'text-brand-700 hover:bg-brand-50'"
                   @click="tab='projeto'">Projeto</button>
-
           <button class="px-4 py-2 rounded-lg font-medium shrink-0"
                   :class="tab==='equipes' ? 'bg-brand-500 text-white' : 'text-brand-700 hover:bg-brand-50'"
                   @click="tab='equipes'">Equipe & Benefícios</button>
-
           <button class="px-4 py-2 rounded-lg font-medium shrink-0"
                   :class="tab==='leis' ? 'bg-brand-500 text-white' : 'text-brand-700 hover:bg-brand-50'"
                   @click="tab='leis'">Leis & Informações</button>
         </div>
 
-        <!-- Conteúdo -->
         <div class="mt-6">
           <div x-show="tab==='projeto'">
             {% include "content/_aba1_projeto.html" %}
@@ -39,7 +35,6 @@
     </div>
   </section>
 
-  <!-- Form + QR -->
   <aside class="space-y-6">
     <div class="card bg-white shadow-soft rounded-xl2">
       <div class="card-body">
@@ -90,7 +85,8 @@
             {{ form.message }}
           </label>
 
-          <button class="btn w-full border-0 bg-brand-600 hover:bg-brand-700 text-white">
+          <!-- Botão de envio LARANJA -->
+          <button class="btn w-full border-0 bg-orange-500 hover:bg-orange-600 text-white">
             Enviar
           </button>
         </form>
@@ -99,18 +95,94 @@
 
     <div class="card bg-white shadow-soft rounded-xl2">
       <div class="card-body items-center text-center">
-        <div class="avatar placeholder mb-3">
-          <div class="bg-brand-600 text-white rounded-full w-12"><span>E</span></div>
-        </div>
-        <h3 class="font-semibold text-brand-800">Eleni</h3>
-        <p class="text-sm text-gray-600 mb-3">Contato no WhatsApp</p>
-        <a href="{{ whatsapp_link }}" target="_blank" class="btn btn-outline w-full mb-3 border-brand-300 text-brand-700 hover:bg-brand-50">
+        <!-- Botão outline agora com borda/hover laranja -->
+        <a href="{{ whatsapp_link }}" target="_blank"
+           class="btn btn-outline w-full mb-3 border-0 bg-orange-500 hover:bg-orange-600 text-white">
           Abrir conversa
         </a>
         <img src="{% static 'img/qr_eleni.png' %}" alt="QR WhatsApp Eleni" class="w-44 h-44 object-contain mx-auto">
-        <p class="text-xs text-gray-500 mt-2">Escaneie o QR para falar com Eleni</p>
+        <p class="text-xs text-gray-500 mt-2">Escaneie o QR para falar com a Equipe</p>
       </div>
     </div>
   </aside>
 </div>
+
+<!-- Script de máscaras -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const qs = (sel) => document.querySelector(sel);
+  const pick = (...sels) => sels.map(qs).find(Boolean);
+
+  const $phone  = pick('input[name="phone"]', '#id_phone');
+  const $cnpj   = pick('input[name="cnpj"]', '#id_cnpj');
+  const $razao  = pick('input[name="company_name"]', '#id_company_name');
+
+  const onlyDigits = (v) => (v || '').replace(/\D+/g, '');
+
+  function formatPhone(v) {
+    const d = onlyDigits(v).slice(0, 11);
+    if (!d) return '';
+    if (d.length <= 10) {
+      const p1 = d.slice(0, 2);
+      const p2 = d.slice(2, 6);
+      const p3 = d.slice(6, 10);
+      return p3 ? `(${p1}) ${p2}-${p3}` : p2 ? `(${p1}) ${p2}` : `(${p1}`;
+    } else {
+      const p1 = d.slice(0, 2);
+      const p2 = d.slice(2, 7);
+      const p3 = d.slice(7, 11);
+      return p3 ? `(${p1}) ${p2}-${p3}` : p2 ? `(${p1}) ${p2}` : `(${p1}`;
+    }
+  }
+
+  function formatCNPJ(v) {
+    const d = onlyDigits(v).slice(0, 14);
+    if (!d) return '';
+    const p1 = d.slice(0, 2);
+    const p2 = d.slice(2, 5);
+    const p3 = d.slice(5, 8);
+    const p4 = d.slice(8, 12);
+    const p5 = d.slice(12, 14);
+
+    let out = p1;
+    if (p2) out += '.' + p2;
+    if (p3) out += '.' + p3;
+    if (p4) out += '/' + p4;
+    if (p5) out += '-' + p5;
+    return out;
+  }
+
+  function toTitleCase(str) {
+    return (str || '')
+      .trim()
+      .replace(/\s+/g, ' ')
+      .toLowerCase()
+      .replace(/\b([a-zà-ú])([a-zà-ú]*)/gi, (m, a, b) => a.toUpperCase() + b);
+  }
+
+  if ($phone) {
+    $phone.setAttribute('inputmode', 'tel');
+    $phone.setAttribute('maxlength', '16');
+    $phone.addEventListener('input', (e) => {
+      e.target.value = formatPhone(e.target.value);
+    });
+    if ($phone.value) $phone.value = formatPhone($phone.value);
+  }
+
+  if ($cnpj) {
+    $cnpj.setAttribute('inputmode', 'numeric');
+    $cnpj.setAttribute('maxlength', '18');
+    $cnpj.addEventListener('input', (e) => {
+      e.target.value = formatCNPJ(e.target.value);
+    });
+    if ($cnpj.value) $cnpj.value = formatCNPJ($cnpj.value);
+  }
+
+  if ($razao) {
+    $razao.addEventListener('blur', (e) => {
+      e.target.value = toTitleCase(e.target.value);
+    });
+  }
+});
+</script>
 {% endblock %}

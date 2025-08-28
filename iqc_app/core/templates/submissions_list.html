@@ -7,9 +7,10 @@
 <table class="table w-full bg-white shadow-soft rounded-xl2">
   <thead>
     <tr>
-      <th>Empresa</th>
+      <th>Razão social</th>
       <th>CNPJ</th>
       <th>Representante</th>
+      <th>Cargo</th>
       <th>Email</th>
       <th>Telefone</th>
       <th>Tipo</th>
@@ -22,6 +23,7 @@
         <td>{{ app.company_name }}</td>
         <td>{{ app.cnpj }}</td>
         <td>{{ app.legal_representative }}</td>
+        <td>{{ app.role }}</td>
         <td>{{ app.email }}</td>
         <td>{{ app.phone }}</td>
         <td>{{ app.participation_type }}</td>
@@ -35,7 +37,7 @@
 
 <form action="{% url 'logout' %}" method="post" class="mt-4">
   {% csrf_token %}
-  <button type="submit" class="btn border-0 bg-brand-500 hover:bg-brand-600 text-white">
+  <button type="submit" class="btn border-0 bg-orange-500 hover:bg-orange-600 text-white">
     Logout
   </button>
 </form>
