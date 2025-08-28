@@ -32,7 +32,7 @@ ROOT_URLCONF = "iqc_app.iqc.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "iqc_app.core" / "templates"],
+        "DIRS": [BASE_DIR / "iqc_app" / "core" / "templates"],  # fixed
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -45,6 +45,7 @@ TEMPLATES = [
     },
 ]
 
+STATICFILES_DIRS = [BASE_DIR / "iqc_app" / "core" / "static"]  # fixed
 WSGI_APPLICATION = "iqc_app.iqc.wsgi.application"
 ASGI_APPLICATION = "iqc_app.iqc.asgi.application"
 
@@ -67,10 +68,14 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "/static/"
-STATICFILES_DIRS = [BASE_DIR / "iqc_app.core" / "static"]
+# STATICFILES_DIRS = [BASE_DIR / "iqc_app.core" / "static"]
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "submissions_list"  # or "home"
 LOGIN_URL = "login"
 LOGOUT_REDIRECT_URL = "home"
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://*.ngrok-free.app",
+]

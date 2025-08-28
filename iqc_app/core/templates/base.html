@@ -41,34 +41,41 @@
   <!-- FULL-WIDTH HEADER -->
   <header class="bg-white shadow-soft">
     <div class="max-w-7xl mx-auto px-4 py-4
-                flex flex-wrap items-center gap-3">
-      <img src="{% static 'img/logo.png' %}" alt="Logo"
-           class="h-10 md:h-12 w-auto" style="image-rendering:-webkit-optimize-contrast;">
+                flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 text-center sm:text-left">
 
-      <!-- Let title shrink/wrap on tiny screens -->
-      <h1 class="text-2xl md:text-3xl font-semibold text-brand-800 flex-1 min-w-0">
-        <span class="block whitespace-normal break-words" style="hyphens:auto">
+      <!-- Logo + Title wrapper -->
+      <div class="flex flex-col sm:flex-row sm:items-center gap-2 justify-center">
+        <img src="{% static 'img/logo.png' %}" alt="Logo"
+            class="h-10 md:h-12 w-auto mx-auto sm:mx-0"
+            style="image-rendering:-webkit-optimize-contrast;">
+        <h1 class="text-xl sm:text-2xl md:text-3xl font-semibold text-brand-800 break-words leading-tight">
           Inclusão que Transforma
-        </span>
-      </h1>
+        </h1>
+      </div>
 
-      <!-- On phones the button drops to the next line and takes full width -->
-      <a href="{{ whatsapp_link }}" target="_blank"
-        class="ml-auto btn btn-sm border-0 bg-brand-500 hover:bg-brand-600 text-white">
-        Fale com Eleni
-      </a>
-      {% if user.is_authenticated %}
-        <a href="{% url 'submissions_list' %}" class="ml-2 btn btn-sm bg-brand-200 text-brand-800">Submissões</a>
-
-        <form action="{% url 'logout' %}" method="post" class="inline ml-2">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-sm">Logout</button>
-        </form>
-      {% else %}
-        <a href="{% url 'login' %}" class="ml-2 btn btn-sm">Login</a>
-      {% endif %}
+      <!-- Buttons -->
+      <div class="flex flex-col sm:flex-row gap-2 justify-center sm:justify-end mt-2 sm:mt-0">
+        <a href="{{ whatsapp_link }}" target="_blank"
+          class="btn btn-sm border-0 bg-brand-500 hover:bg-brand-600 text-white w-full sm:w-auto">
+          Fale com Eleni
+        </a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'submissions_list' %}"
+            class="btn btn-sm bg-brand-200 text-brand-800 w-full sm:w-auto">
+            Submissões
+          </a>
+          <form action="{% url 'logout' %}" method="post" class="inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm w-full sm:w-auto">Logout</button>
+          </form>
+        {% else %}
+          <a href="{% url 'login' %}" class="btn btn-sm w-full sm:w-auto">Login</a>
+        {% endif %}
+      </div>
     </div>
   </header>
+
+
 
   <!-- CENTERED CONTENT -->
   <main class="max-w-7xl mx-auto px-4 py-8">

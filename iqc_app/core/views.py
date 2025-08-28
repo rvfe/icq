@@ -13,7 +13,7 @@ def home(request):
         if form.is_valid():
             form.save()
             messages.success(request, "Formulário enviado com sucesso!")
-            return redirect("core:home")
+            return redirect("home")
         messages.error(request, "Erros no formulário, confira os campos.")
     else:
         form = PartnerApplicationForm()
